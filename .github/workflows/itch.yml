@@ -17,7 +17,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Prepare build folder
         run: |
@@ -26,7 +26,7 @@ jobs:
 
       - name: Install butler
         run: |
-          curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
+          curl -fsSL --retry 3 -o butler.zip https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default
           unzip -q butler.zip -d butler
           chmod +x butler/butler
           ./butler/butler -V
