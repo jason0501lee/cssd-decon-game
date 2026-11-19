@@ -1,0 +1,37 @@
+# 每次 main 上的 index.html 更新，就用 itch.io 官方工具 butler 上傳到 itch.io
+# 需要 repo secret：BUTLER_API_KEY（itch.io → Settings → API keys）
+name: Deploy to itch.io
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - index.html
+      - .github/workflows/itch.yml
+  workflow_dispatch:   # 也可以在 Actions 頁面手動按「Run workflow」
+
+env:
+  ITCH_TARGET: jasonchien/spddeconsim:html
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare build folder
+        run: |
+          mkdir -p build
+          cp index.html build/index.html
+
+      - name: Install butler
+        run: |
+          curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
+          unzip -q butler.zip -d butler
+          chmod +x butler/butler
+          ./butler/butler -V
+
+      - name: Push to itch.io
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        run: ./butler/butler push build "$ITCH_TARGET" --userversion "$(date +%Y.%m.%d)-${GITHUB_SHA::7}"

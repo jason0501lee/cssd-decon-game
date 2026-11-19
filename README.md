@@ -5,6 +5,7 @@
 你的工作是清點、檢查、分類、刷洗，最後把器械盒放上清洗車架。
 
 **▶ 線上試玩：** https://jason0501lee.github.io/cssd-decon-game/
+itch.io：https://jasonchien.itch.io/spddeconsim
 （建議用電腦瀏覽器，16:9 畫面，滑鼠＋鍵盤操作）
 
 ## 流程
@@ -34,3 +35,7 @@
 - 盤包內容來自去識別化的清點單（醫院名稱改為「中央人民醫院」）。
 - 器械保養與損壞判斷參考 B.Braun / Aesculap《手術器械再處理—功能檢測》與 HSPA 去污清洗流程。
 - 單一 HTML 檔，所有像素圖都內嵌，不需伺服器。
+
+## 自動發布
+
+推送到 `main` 且 `index.html` 有變動時，GitHub Actions 會用 butler 自動上傳到 itch.io（需 repo secret `BUTLER_API_KEY`）。
